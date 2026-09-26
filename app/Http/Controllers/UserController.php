@@ -25,15 +25,27 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
-            'npm' => ['required', 'string', 'max:255'],
-            'kelas_id' => ['required', 'exists:kelas,id'],
-        ]);
+        $validated = $request->validate(
+            [
+                'nama' => ['required', 'string', 'max:255'],
+                'npm' => ['required', 'string', 'digits:10'],
+                'kelas_id' => ['required', 'exists:kelas,id'],
+            ],
+            [
+                'nama.required' => 'Nama lengkap wajib diisi.',
+                'nama.max' => 'Nama lengkap maksimal 255 karakter.',
+                'npm.required' => 'NPM wajib diisi.',
+                'npm.digits' => 'NPM harus terdiri dari 10 digit angka.',
+                'kelas_id.required' => 'Kelas wajib dipilih.',
+                'kelas_id.exists' => 'Kelas yang dipilih tidak valid.',
+            ]
+        );
 
         $this->mahasiswa->create($validated);
 
-        return redirect()->to('/user');
+        return redirect()
+            ->route('user.index')
+            ->with('success', 'Data mahasiswa berhasil disimpan.');
     }
 
     public function index()
