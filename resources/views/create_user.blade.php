@@ -1,86 +1,65 @@
-<x-layouts.app title="Tambah Mahasiswa">
-    <x-page-header
-        eyebrow=""
-        title="Tambah Mahasiswa"
-        description="Lengkapi data mahasiswa berikut."
-    >
-        <x-slot:actions>
-            <x-button variant="secondary" href="{{ route('user.index') }}">Kembali</x-button>
-        </x-slot:actions>
-    </x-page-header>
+@extends('layouts.app')
 
-    <div class="form-narrow pb-12">
-        <div class="panel">
-            <form method="POST" action="{{ route('user.store') }}" class="panel__body" novalidate>
+@section('content')
+<div class="page-header">
+    <div>
+        <h1 class="page-header__title">Tambah Mahasiswa</h1>
+        <p class="page-header__description">Lengkapi data mahasiswa berikut.</p>
+    </div>
+
+    <div class="page-header__actions">
+        <a href="{{ route('user.index') }}" class="btn btn--secondary">Kembali</a>
+    </div>
+</div>
+
+@if ($errors->any())
+    <div class="alert alert--error">
+        <span>Periksa kembali data yang Anda masukkan.</span>
+    </div>
+@endif
+
+<div class="form-narrow">
+    <div class="panel">
+        <div class="panel__body">
+            <form action="{{ route('user.store') }}" method="POST">
                 @csrf
 
-                <x-field label="Nama Lengkap" name="nama" required>
-                    <input
-                        type="text"
-                        id="nama"
-                        name="nama"
-                        value="{{ old('nama') }}"
-                        placeholder="Contoh: Rif'an Habibi"
-                        autocomplete="off"
-                        @class(['field__control', 'field__control--invalid' => $errors->has('nama')])
-                        @if ($errors->has('nama')) aria-invalid="true" @endif
-                        required
-                    >
-                </x-field>
+                <div class="field">
+                    <label for="nama" class="field__label">Nama Lengkap <span class="field__req">*</span></label>
+                    <input type="text" id="nama" name="nama" value="{{ old('nama') }}" class="field__control" required>
+                    @error('nama')
+                        <p class="field__error">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <x-field
-                    label="NPM"
-                    name="npm"
-                    required
-                    hint="Nomor Pokok Mahasiswa, 10 digit numerik tanpa spasi."
-                >
-                    <input
-                        type="text"
-                        id="npm"
-                        name="npm"
-                        value="{{ old('npm') }}"
-                        placeholder="2417052016"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        maxlength="10"
-                        autocomplete="off"
-                        @class([
-                            'field__control',
-                            'font-mono tracking-tight',
-                            'field__control--invalid' => $errors->has('npm'),
-                        ])
-                        @if ($errors->has('npm')) aria-invalid="true" @endif
-                        required
-                    >
-                </x-field>
+                <div class="field">
+                    <label for="npm" class="field__label">NPM <span class="field__req">*</span></label>
+                    <input type="text" id="npm" name="npm" value="{{ old('npm') }}" inputmode="numeric" pattern="[0-9]*" maxlength="10" class="field__control" required>
+                    <p class="field__hint">Nomor Pokok Mahasiswa, 10 digit numerik tanpa spasi.</p>
+                    @error('npm')
+                        <p class="field__error">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <x-field label="Kelas" name="kelas_id" required>
-                    <select
-                        id="kelas_id"
-                        name="kelas_id"
-                        @class([
-                            'field__control',
-                            'field__control--select',
-                            'field__control--invalid' => $errors->has('kelas_id'),
-                        ])
-                        @if ($errors->has('kelas_id')) aria-invalid="true" @endif
-                        required
-                    >
-                        <option value="">— Pilih kelas —</option>
+                <div class="field">
+                    <label for="kelas_id" class="field__label">Kelas <span class="field__req">*</span></label>
+                    <select id="kelas_id" name="kelas_id" class="field__control field__control--select" required>
+                        <option value="">-- Pilih kelas --</option>
                         @foreach ($kelas as $item)
-                            <option value="{{ $item->id }}" @selected((string) old('kelas_id') === (string) $item->id)>
-                                {{ $item->nama_kelas }}
-                            </option>
+                            <option value="{{ $item->id }}" @selected((string) old('kelas_id') === (string) $item->id)>{{ $item->nama_kelas }}</option>
                         @endforeach
                     </select>
-                </x-field>
+                    @error('kelas_id')
+                        <p class="field__error">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                <div class="stack-form-actions mt-7 border-t border-rule pt-5">
-                    <x-button type="submit">Simpan Data</x-button>
-
+                <div class="stack-form-actions">
+                    <button type="submit" class="btn btn--primary">Simpan Data</button>
                     <a href="{{ route('user.index') }}" class="link-quiet">Batal</a>
                 </div>
             </form>
         </div>
     </div>
-</x-layouts.app>
+</div>
+@endsection

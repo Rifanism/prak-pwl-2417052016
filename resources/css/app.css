@@ -309,7 +309,18 @@
         vertical-align: middle;
     }
 
-    .dt tbody tr:last-child td {
+    .dt tbody th {
+        padding: 0.8125rem 1rem;
+        border-bottom: 1px solid var(--color-rule);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        text-align: left;
+        color: var(--color-ink-soft);
+        vertical-align: middle;
+    }
+
+    .dt tbody tr:last-child td,
+    .dt tbody tr:last-child th {
         border-bottom: 0;
     }
 
