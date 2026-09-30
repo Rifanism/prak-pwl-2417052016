@@ -6,7 +6,7 @@ use App\Models\Kelas;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class MahasiswaController extends Controller
 {
     public function __construct(
         protected Mahasiswa $mahasiswa,
@@ -16,7 +16,7 @@ class UserController extends Controller
     public function create()
     {
         $data = [
-            'title' => 'Create User',
+            'title' => 'Create Mahasiswa',
             'kelas' => $this->kelas->getKelas(),
         ];
 
@@ -51,7 +51,7 @@ class UserController extends Controller
     public function index()
     {
         $data = [
-            'title' => 'List User',
+            'title' => 'List Mahasiswa',
             'mahasiswa' => $this->mahasiswa->getMahasiswa(),
         ];
 

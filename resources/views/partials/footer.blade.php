@@ -13,14 +13,6 @@
             </div>
 
             <div>
-                <h2 class="site-footer__heading">Akademik</h2>
-                <ul class="site-footer__list">
-                    <li><a href="{{ route('user.index') }}">Data Mahasiswa</a></li>
-                    <li><a href="{{ route('user.create') }}">Tambah Mahasiswa</a></li>
-                </ul>
-            </div>
-
-            <div>
                 <h2 class="site-footer__heading">Institusi</h2>
                 <ul class="site-footer__list">
                     <li><a href="https://{{ config('institution.domain') }}" rel="noopener noreferrer" target="_blank">Situs Universitas</a></li>

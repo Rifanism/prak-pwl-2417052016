@@ -1,7 +1,10 @@
 @php
     $links = [
-        ['label' => 'Data Mahasiswa', 'route' => 'user.index', 'active' => 'user.index'],
-        ['label' => 'Tambah Mahasiswa', 'route' => 'user.create', 'active' => 'user.create'],
+        ['label' => 'Data Mahasiswa', 'route' => 'user.index'],
+        ['label' => 'Tambah Mahasiswa', 'route' => 'user.create'],
+        ['label' => 'Data Mata Kuliah', 'route' => 'matakuliah.index'],
+        ['label' => 'Tambah Mata Kuliah', 'route' => 'matakuliah.create'],
+        ['label' => 'Profile', 'route' => 'profile'],
     ];
 @endphp
 
@@ -18,8 +21,8 @@
             @foreach ($links as $link)
                 <a
                     href="{{ route($link['route']) }}"
-                    class="navbar__link {{ request()->routeIs($link['active']) ? 'navbar__link--active' : '' }}"
-                    @if (request()->routeIs($link['active'])) aria-current="page" @endif
+                    class="navbar__link {{ request()->routeIs($link['route']) ? 'navbar__link--active' : '' }}"
+                    @if (request()->routeIs($link['route'])) aria-current="page" @endif
                 >
                     {{ $link['label'] }}
                 </a>

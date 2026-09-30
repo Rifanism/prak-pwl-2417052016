@@ -1,66 +1,53 @@
-<x-layouts.app title="Data Mahasiswa">
-    <x-page-header
-        eyebrow=""
-        title="Data Mahasiswa"
-        :description="'Seluruh data mahasiswa yang terdaftar pada ' . config('institution.unit') . '.'"
-    >
-        <x-slot:actions>
-            <x-button href="{{ route('user.create') }}">Tambah Mahasiswa</x-button>
-        </x-slot:actions>
-    </x-page-header>
+@extends('layouts.app')
 
-    @if (session('success'))
-        <div class="alert alert--success mb-6">
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
+@section('content')
+<div class="page-header">
+    <div>
+        <h1 class="page-header__title">Data Mahasiswa</h1>
+        <p class="page-header__description">Seluruh data mahasiswa yang terdaftar pada {{ config('institution.unit') }}.</p>
+    </div>
 
-    @if ($errors->any())
-        <div class="alert alert--error mb-6">
-            <span>Periksa kembali data yang Anda masukkan.</span>
-        </div>
-    @endif
+    <div class="page-header__actions">
+        <a href="{{ route('user.create') }}" class="btn btn--primary">Tambah Mahasiswa</a>
+    </div>
+</div>
 
-    @php
-        $columns = [
-            [
-                'key' => 'id',
-                'label' => 'No',
-                'width' => '4.5rem',
-                'numeric' => true,
-                'muted' => true,
-            ],
-            [
-                'key' => 'nama',
-                'label' => 'Nama Lengkap',
-                'strong' => true,
-            ],
-            [
-                'key' => 'npm',
-                'label' => 'NPM',
-                'width' => '11rem',
-                'mono' => true,
-                'numeric' => true,
-            ],
-            [
-                'key' => 'kelas.nama_kelas',
-                'label' => 'Kelas',
-                'width' => '8rem',
-                'center' => true,
-                'badge' => true,
-            ],
-        ];
-    @endphp
+@if (session('success'))
+    <div class="alert alert--success">
+        <span>{{ session('success') }}</span>
+    </div>
+@endif
 
-    <x-data-table
-        :columns="$columns"
-        :rows="$mahasiswa"
-        :footer="'Total ' . $mahasiswa->count() . ' mahasiswa terdaftar'"
-        empty-title="Belum ada data mahasiswa"
-        empty-text="Daftar masih kosong. Tambahkan mahasiswa pertama untuk memulai pencatatan."
-    >
-        <x-slot:emptyAction>
-            <x-button href="{{ route('user.create') }}">Tambah Mahasiswa</x-button>
-        </x-slot:emptyAction>
-    </x-data-table>
-</x-layouts.app>
+@if ($errors->any())
+    <div class="alert alert--error">
+        <span>Periksa kembali data yang Anda masukkan.</span>
+    </div>
+@endif
+
+<div class="panel">
+    <table class="dt">
+        <thead>
+            <tr>
+                <th class="dt__num">No</th>
+                <th>Nama Lengkap</th>
+                <th>NPM</th>
+                <th class="dt__center">Kelas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($mahasiswa as $mhs)
+                <tr>
+                    <td class="dt__num dt__muted">{{ $mhs->id }}</td>
+                    <td class="dt__strong">{{ $mhs->nama }}</td>
+                    <td class="dt__mono">{{ $mhs->npm }}</td>
+                    <td class="dt__center"><span class="kelas-badge">{{ $mhs->kelas->nama_kelas ?? '-' }}</span></td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" class="dt__muted">Belum ada data mahasiswa.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+@endsection
