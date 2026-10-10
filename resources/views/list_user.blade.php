@@ -32,6 +32,7 @@
                 <th>Nama Lengkap</th>
                 <th>NPM</th>
                 <th class="dt__center">Kelas</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -41,10 +42,20 @@
                     <td class="dt__strong">{{ $mhs->nama }}</td>
                     <td class="dt__mono">{{ $mhs->npm }}</td>
                     <td class="dt__center"><span class="kelas-badge">{{ $mhs->kelas->nama_kelas ?? '-' }}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="{{ route('user.edit', $mhs->id) }}" class="btn btn--small btn--primary">Edit</a>
+                            <form action="{{ route('user.destroy', $mhs->id) }}" method="POST" style="display:inline;">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn btn--small btn--danger" onclick="return confirm('Yakin ingin menghapus mahasiswa ini?');">Hapus</button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="dt__muted">Belum ada data mahasiswa.</td>
+                    <td colspan="5" class="dt__muted">Belum ada data mahasiswa.</td>
                 </tr>
             @endforelse
         </tbody>
